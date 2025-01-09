@@ -1,14 +1,25 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTable } from 'react-table';
 
-const KeyTable = ({ columns = [], data = [] }: any) => {
+const KeyTable = ({ columns = [], data = [], offset = 0 }: any) => {
+  const memoizedColumns = useMemo(() => [
+    {
+      Header: 'No',
+      Cell: ({ row }: any) => row.index + offset + 1,
+    },
+    ...columns,
+  ], [columns, offset]);
+
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
     rows,
     prepareRow,
-  } = useTable({ columns, data });
+  } = useTable({
+    columns: memoizedColumns,
+    data,
+  });
 
   return (
     <table {...getTableProps()} className="min-w-full divide-y divide-gray-200">

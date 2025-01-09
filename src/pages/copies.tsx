@@ -1,35 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import CopyTable from '../components/CopyTable';
 import CopyForm from '../components/CopyForm';
+import Pagination from '../components/Pagination';
 import { getCopies, createCopy, updateCopy, deleteCopy } from '../services/copyService';
 import { Copy } from '../types/models';
 
 const CopiesPage = () => {
   const [copies, setCopies] = useState<Copy[]>([]);
   const [editingCopy, setEditingCopy] = useState<Copy | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const itemsPerPage = 3;
 
   useEffect(() => {
-    fetchCopies();
-  }, []);
-
-  const fetchCopies = async () => {
-    const data = await getCopies();
-    setCopies(data);
+    fetchCopies(currentPage);
+  }, [currentPage]);
+    
+  const fetchCopies = async (page: number) => {
+    try {
+      const data = await getCopies(page, itemsPerPage);
+      setCopies(data.copies);
+      setTotalPages(data.totalPages);      
+    } catch (error) {
+      console.error('Failed to fetch copies:', error);
+    }
   };
 
   const handleCreateCopy = async (copy: Copy) => {
     await createCopy(copy);
-    fetchCopies();
+    fetchCopies(currentPage);
   };
 
   const handleUpdateCopy = async (copy: Copy) => {
     await updateCopy(copy.id, copy);
-    fetchCopies();
+    fetchCopies(currentPage);
   };
 
   const handleDeleteCopy = async (id: number) => {
     await deleteCopy(id);
-    fetchCopies();
+    fetchCopies(currentPage);
   };
 
   return (
@@ -43,6 +52,12 @@ const CopiesPage = () => {
           { Header: 'Actions', accessor: 'actions' },
         ]}
         data={copies}
+        offset={(currentPage - 1) * itemsPerPage}
+      />
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={(page) => setCurrentPage(page)}
       />
     </div>
   );

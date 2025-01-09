@@ -52,6 +52,7 @@ const KeysPage = () => {
           { Header: 'Actions', accessor: 'actions' },
         ]}
         data={keys}
+        offset={(currentPage - 1) * itemsPerPage}
       />
       <Pagination
         currentPage={currentPage}

@@ -55,6 +55,7 @@ const TenantsPage = () => {
           { Header: 'Actions', accessor: 'actions' },
         ]}
         data={tenants}
+        offset={(currentPage - 1) * itemsPerPage}
       />
       <Pagination
         currentPage={currentPage}

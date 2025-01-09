@@ -1,8 +1,9 @@
 import axiosInstance from '../utils/axiosInstance';
 import { Copy } from '../types/models';
 
-export const getCopies = async (): Promise<Copy[]> => {
-  const response = await axiosInstance.get('/copies');
+export const getCopies = async (page: number, itemsPerPage: number): Promise<{ copies: Copy[], totalPages: number }> => {
+  const offset = (page - 1) * itemsPerPage;
+  const response = await axiosInstance.get(`/copies?limit=${itemsPerPage}&offset=${offset}`);
   return response.data;
 };
 
