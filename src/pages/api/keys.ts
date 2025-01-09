@@ -1,24 +1,26 @@
-import { NextApiRequest, NextApiResponse } from 'next'
-import axiosInstance from '../../utils/axiosInstance'
-import { Key } from '../../types/models'
+import { NextApiRequest, NextApiResponse } from 'next';
+import { getKeys, createKey, updateKey, deleteKey } from '../../services/keyService';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'GET') {
-    try {
-      const response = await axiosInstance.get<Key[]>('/keys')
-      res.status(200).json(response.data)
-    } catch (e) {
-      res.status(500).json({ error: 'Failed to fetch keys' })
-    }
-  }
-
-  if (req.method === 'POST') {
-    try {
-      const key: Key = req.body
-      const response = await axiosInstance.post('/keys', key)
-      res.status(201).json(response.data)
-    } catch (e) {
-      res.status(500).json({ error: 'Failed to create key' })
-    }
+  switch (req.method) {
+    case 'GET':
+      const keys = await getKeys();
+      res.status(200).json(keys);
+      break;
+    case 'POST':
+      const newKey = await createKey(req.body);
+      res.status(201).json(newKey);
+      break;
+    case 'PUT':
+      const updatedKey = await updateKey(req.body.id, req.body);
+      res.status(200).json(updatedKey);
+      break;
+    case 'DELETE':
+      await deleteKey(req.body.id);
+      res.status(204).end();
+      break;
+    default:
+      res.setHeader('Allow', ['GET', 'POST', 'PUT', 'DELETE']);
+      res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }
