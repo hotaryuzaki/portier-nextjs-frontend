@@ -13,7 +13,7 @@ const UserForm = ({ initialValues, onSubmit }: any) => {
             id="username"
             name="username"
             type="text"
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="text-black mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
         </div>
         <div>
@@ -24,7 +24,7 @@ const UserForm = ({ initialValues, onSubmit }: any) => {
             id="email"
             name="email"
             type="email"
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="text-black mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
         </div>
         <div>
@@ -35,7 +35,7 @@ const UserForm = ({ initialValues, onSubmit }: any) => {
             id="password"
             name="password"
             type="password"
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="text-black mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
         </div>
         <div>
@@ -46,7 +46,7 @@ const UserForm = ({ initialValues, onSubmit }: any) => {
             id="name"
             name="name"
             type="text"
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="text-black mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
         </div>
         <div>
@@ -54,34 +54,38 @@ const UserForm = ({ initialValues, onSubmit }: any) => {
             Gender
           </label>
           <Field
+            as="select"
             id="gender"
             name="gender"
-            type="checkbox"
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-          />
+            className="text-black mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black"
+          >
+            <option value="1">Male</option>
+            <option value="0">Female</option>
+          </Field>
         </div>
         <div>
-          <label htmlFor="idNumber" className="block text-sm font-medium text-700">
+          <label htmlFor="id_number" className="block text-sm font-medium text-700">
             ID Number
           </label>
           <Field
-            id="idNumber"
-            name="idNumber"
+            id="id_number"
+            name="id_number"
             type="text"
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="text-black mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
         </div>
         <div>
-          <label htmlFor="userImage" className="block text-sm font-medium text-700">
+          <label htmlFor="user_image" className="block text-sm font-medium text-700">
             User Image
           </label>
           <Field
-            id="userImage"
-            name="userImage"
+            id="user_image"
+            name="user_image"
             type="text"
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="text-black mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
         </div>
+
         <button
           type="submit"
           className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
