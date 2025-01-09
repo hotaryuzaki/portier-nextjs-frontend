@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import KeyTable from '../components/KeyTable';
 import KeyForm from '../components/KeyForm';
 import { getKeys, createKey, updateKey, deleteKey } from '../services/keyService';
+import { Key } from '../types/models';
 
 const KeysPage = () => {
-  const [keys, setKeys] = useState([]);
-  const [editingKey, setEditingKey] = useState(null);
+  const [keys, setKeys] = useState<Key[]>([]);
+  const [editingKey, setEditingKey] = useState<Key | null>(null);
 
   useEffect(() => {
     fetchKeys();
@@ -16,12 +17,12 @@ const KeysPage = () => {
     setKeys(data);
   };
 
-  const handleCreateKey = async (key: any) => {
+  const handleCreateKey = async (key: Key) => {
     await createKey(key);
     fetchKeys();
   };
 
-  const handleUpdateKey = async (key: any) => {
+  const handleUpdateKey = async (key: Key) => {
     await updateKey(key.id, key);
     fetchKeys();
   };

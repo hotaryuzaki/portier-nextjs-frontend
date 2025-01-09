@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import CopyTable from '../components/CopyTable';
 import CopyForm from '../components/CopyForm';
 import { getCopies, createCopy, updateCopy, deleteCopy } from '../services/copyService';
+import { Copy } from '../types/models';
 
 const CopiesPage = () => {
-  const [copies, setCopies] = useState([]);
-  const [editingCopy, setEditingCopy] = useState(null);
+  const [copies, setCopies] = useState<Copy[]>([]);
+  const [editingCopy, setEditingCopy] = useState<Copy | null>(null);
 
   useEffect(() => {
     fetchCopies();
@@ -16,12 +17,12 @@ const CopiesPage = () => {
     setCopies(data);
   };
 
-  const handleCreateCopy = async (copy: any) => {
+  const handleCreateCopy = async (copy: Copy) => {
     await createCopy(copy);
     fetchCopies();
   };
 
-  const handleUpdateCopy = async (copy: any) => {
+  const handleUpdateCopy = async (copy: Copy) => {
     await updateCopy(copy.id, copy);
     fetchCopies();
   };
@@ -39,7 +40,6 @@ const CopiesPage = () => {
         columns={[
           { Header: 'ID', accessor: 'id' },
           { Header: 'Name', accessor: 'name' },
-          { Header: 'Key ID', accessor: 'keyId' },
           { Header: 'Actions', accessor: 'actions' },
         ]}
         data={copies}

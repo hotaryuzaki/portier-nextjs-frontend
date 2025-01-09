@@ -4,9 +4,9 @@ import { Formik, Form, Field } from 'formik';
 const KeyForm = ({ initialValues, onSubmit }: any) => {
   return (
     <Formik initialValues={initialValues} onSubmit={onSubmit}>
-      <Form className="space-y-6">
+      <Form className="space-y-6 mb-8">
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="name" className="block text-sm font-medium text-700">
             Name
           </label>
           <Field

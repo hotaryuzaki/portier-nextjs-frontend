@@ -4,9 +4,9 @@ import { Formik, Form, Field } from 'formik';
 const UserForm = ({ initialValues, onSubmit }: any) => {
   return (
     <Formik initialValues={initialValues} onSubmit={onSubmit}>
-      <Form className="space-y-6">
+      <Form className="space-y-6 mb-8">
         <div>
-          <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="username" className="block text-sm font-medium text-700">
             Username
           </label>
           <Field
@@ -17,7 +17,7 @@ const UserForm = ({ initialValues, onSubmit }: any) => {
           />
         </div>
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="email" className="block text-sm font-medium text-700">
             Email
           </label>
           <Field
@@ -28,7 +28,7 @@ const UserForm = ({ initialValues, onSubmit }: any) => {
           />
         </div>
         <div>
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="password" className="block text-sm font-medium text-700">
             Password
           </label>
           <Field
@@ -39,7 +39,7 @@ const UserForm = ({ initialValues, onSubmit }: any) => {
           />
         </div>
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="name" className="block text-sm font-medium text-700">
             Name
           </label>
           <Field
@@ -50,7 +50,7 @@ const UserForm = ({ initialValues, onSubmit }: any) => {
           />
         </div>
         <div>
-          <label htmlFor="gender" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="gender" className="block text-sm font-medium text-700">
             Gender
           </label>
           <Field
@@ -61,7 +61,7 @@ const UserForm = ({ initialValues, onSubmit }: any) => {
           />
         </div>
         <div>
-          <label htmlFor="idNumber" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="idNumber" className="block text-sm font-medium text-700">
             ID Number
           </label>
           <Field
@@ -72,7 +72,7 @@ const UserForm = ({ initialValues, onSubmit }: any) => {
           />
         </div>
         <div>
-          <label htmlFor="userImage" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="userImage" className="block text-sm font-medium text-700">
             User Image
           </label>
           <Field

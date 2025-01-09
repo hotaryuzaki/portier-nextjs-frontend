@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import UserTable from '../components/UserTable';
 import UserForm from '../components/UserForm';
 import { getUsers, createUser, updateUser, deleteUser } from '../services/userService';
+import { User } from '../types/models';
 
 const UsersPage = () => {
-  const [users, setUsers] = useState([]);
-  const [editingUser, setEditingUser] = useState(null);
+  const [users, setUsers] = useState<User[]>([]);
+  const [editingUser, setEditingUser] = useState<User | null>(null);
 
   useEffect(() => {
     fetchUsers();
@@ -16,12 +17,12 @@ const UsersPage = () => {
     setUsers(data);
   };
 
-  const handleCreateUser = async (user: any) => {
+  const handleCreateUser = async (user: User) => {
     await createUser(user);
     fetchUsers();
   };
 
-  const handleUpdateUser = async (user: any) => {
+  const handleUpdateUser = async (user: User) => {
     await updateUser(user.id, user);
     fetchUsers();
   };
