@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTable } from 'react-table';
 
-const KeyTable = ({ columns, data }: any) => {
+const KeyTable = ({ columns = [], data = [] }: any) => {
   const {
     getTableProps,
     getTableBodyProps,

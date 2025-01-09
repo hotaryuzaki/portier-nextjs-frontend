@@ -1,35 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import TenantTable from '../components/TenantTable';
 import TenantForm from '../components/TenantForm';
+import Pagination from '../components/Pagination';
 import { getTenants, createTenant, updateTenant, deleteTenant } from '../services/tenantService';
 import { Tenant } from '../types/models';
 
 const TenantsPage = () => {
   const [tenants, setTenants] = useState<Tenant[]>([]);
   const [editingTenant, setEditingTenant] = useState<Tenant | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const itemsPerPage = 3;
 
   useEffect(() => {
-    fetchTenants();
-  }, []);
-
-  const fetchTenants = async () => {
-    const data = await getTenants();
-    setTenants(data);
+    fetchTenants(currentPage);
+  }, [currentPage]);
+  
+  const fetchTenants = async (page: number) => {
+    try {
+      const data = await getTenants(page, itemsPerPage);
+      setTenants(data.tenants);
+      setTotalPages(data.totalPages);      
+    } catch (error) {
+      console.error('Failed to fetch tenants:', error);
+    }
   };
 
   const handleCreateTenant = async (tenant: Tenant) => {
     await createTenant(tenant);
-    fetchTenants();
+    fetchTenants(currentPage);
   };
 
   const handleUpdateTenant = async (tenant: Tenant) => {
     await updateTenant(tenant.id, tenant);
-    fetchTenants();
+    fetchTenants(currentPage);
   };
 
   const handleDeleteTenant = async (id: number) => {
     await deleteTenant(id);
-    fetchTenants();
+    fetchTenants(currentPage);
   };
 
   return (
@@ -46,6 +55,11 @@ const TenantsPage = () => {
           { Header: 'Actions', accessor: 'actions' },
         ]}
         data={tenants}
+      />
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={(page) => setCurrentPage(page)}
       />
     </div>
   );

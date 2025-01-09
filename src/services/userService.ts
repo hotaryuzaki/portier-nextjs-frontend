@@ -1,8 +1,9 @@
 import axiosInstance from '../utils/axiosInstance';
 import { User } from '../types/models';
 
-export const getUsers = async (): Promise<User[]> => {
-  const response = await axiosInstance.get('/users');
+export const getUsers = async (page: number, itemsPerPage: number): Promise<{ users: User[], totalPages: number }> => {
+  const offset = (page - 1) * itemsPerPage;
+  const response = await axiosInstance.get(`/users?limit=${itemsPerPage}&offset=${offset}`);
   return response.data;
 };
 

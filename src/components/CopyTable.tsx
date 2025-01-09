@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTable } from 'react-table';
 
-const CopyTable = ({ columns, data }: any) => {
+const CopyTable = ({ columns = [], data = [] }: any) => {
   const {
     getTableProps,
     getTableBodyProps,

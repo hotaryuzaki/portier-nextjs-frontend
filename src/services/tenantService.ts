@@ -1,8 +1,9 @@
 import axiosInstance from '../utils/axiosInstance';
 import { Tenant } from '../types/models';
 
-export const getTenants = async (): Promise<Tenant[]> => {
-  const response = await axiosInstance.get('/tenants');
+export const getTenants = async (page: number, itemsPerPage: number): Promise<{ tenants: Tenant[], totalPages: number }> => {
+  const offset = (page - 1) * itemsPerPage;
+  const response = await axiosInstance.get(`/tenants?limit=${itemsPerPage}&offset=${offset}`);
   return response.data;
 };
 

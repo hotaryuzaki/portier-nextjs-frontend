@@ -1,35 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import UserTable from '../components/UserTable';
 import UserForm from '../components/UserForm';
+import Pagination from '../components/Pagination';
 import { getUsers, createUser, updateUser, deleteUser } from '../services/userService';
 import { User } from '../types/models';
 
 const UsersPage = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [editingUser, setEditingUser] = useState<User | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const itemsPerPage = 3;
 
   useEffect(() => {
-    fetchUsers();
-  }, []);
+    fetchUsers(currentPage);
+  }, [currentPage]);
 
-  const fetchUsers = async () => {
-    const data = await getUsers();
-    setUsers(data);
+  const fetchUsers = async (page: number) => {
+    try {
+      const data = await getUsers(page, itemsPerPage);
+      setUsers(data.users);
+      setTotalPages(data.totalPages);      
+    } catch (error) {
+      console.error('Failed to fetch users:', error);
+    }
   };
 
   const handleCreateUser = async (user: User) => {
     await createUser(user);
-    fetchUsers();
+    fetchUsers(currentPage);
   };
 
   const handleUpdateUser = async (user: User) => {
     await updateUser(user.id, user);
-    fetchUsers();
+    fetchUsers(currentPage);
   };
 
   const handleDeleteUser = async (id: number) => {
     await deleteUser(id);
-    fetchUsers();
+    fetchUsers(currentPage);
   };
 
   return (
@@ -45,6 +54,11 @@ const UsersPage = () => {
           { Header: 'Actions', accessor: 'actions' },
         ]}
         data={users}
+      />
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={(page) => setCurrentPage(page)}
       />
     </div>
   );

@@ -1,35 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import KeyTable from '../components/KeyTable';
 import KeyForm from '../components/KeyForm';
+import Pagination from '../components/Pagination';
 import { getKeys, createKey, updateKey, deleteKey } from '../services/keyService';
 import { Key } from '../types/models';
 
 const KeysPage = () => {
   const [keys, setKeys] = useState<Key[]>([]);
   const [editingKey, setEditingKey] = useState<Key | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const itemsPerPage = 3;
 
   useEffect(() => {
-    fetchKeys();
-  }, []);
+    fetchKeys(currentPage);
+  }, [currentPage]);
 
-  const fetchKeys = async () => {
-    const data = await getKeys();
-    setKeys(data);
+  const fetchKeys = async (page: number) => {
+    try {
+      const data = await getKeys(page, itemsPerPage);
+      setKeys(data.keys);
+      setTotalPages(data.totalPages);      
+    } catch (error) {
+      console.error('Failed to fetch keys:', error);
+    }
   };
 
   const handleCreateKey = async (key: Key) => {
     await createKey(key);
-    fetchKeys();
+    fetchKeys(currentPage);
   };
 
   const handleUpdateKey = async (key: Key) => {
     await updateKey(key.id, key);
-    fetchKeys();
+    fetchKeys(currentPage);
   };
 
   const handleDeleteKey = async (id: number) => {
     await deleteKey(id);
-    fetchKeys();
+    fetchKeys(currentPage);
   };
 
   return (
@@ -43,6 +52,11 @@ const KeysPage = () => {
           { Header: 'Actions', accessor: 'actions' },
         ]}
         data={keys}
+      />
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={(page) => setCurrentPage(page)}
       />
     </div>
   );
