@@ -3,7 +3,13 @@ import { Formik, Form, Field } from 'formik';
 
 const UserForm = ({ initialValues, onSubmit }: any) => {
   return (
-    <Formik initialValues={initialValues} onSubmit={onSubmit}>
+    <Formik
+      initialValues={{
+        ...initialValues,
+        gender: initialValues.gender ?? "1"
+      }} // Set default value
+      onSubmit={onSubmit}
+    >
       <Form className="space-y-6 mb-8">
         <div>
           <label htmlFor="username" className="block text-sm font-medium text-700">
@@ -57,7 +63,7 @@ const UserForm = ({ initialValues, onSubmit }: any) => {
             as="select"
             id="gender"
             name="gender"
-            className="text-black mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black"
+            className="text-black mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           >
             <option value="1">Male</option>
             <option value="0">Female</option>
@@ -85,7 +91,6 @@ const UserForm = ({ initialValues, onSubmit }: any) => {
             className="text-black mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
         </div>
-
         <button
           type="submit"
           className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

@@ -12,6 +12,7 @@ const Sidebar = () => {
       </div>
       <nav>
         <ul>
+          <li className="mb-2"><Link href="/tenants">Tenants</Link></li>
           <li className="mb-2"><Link href="/users">Users</Link></li>
           <li className="mb-2"><Link href="/keys">Keys</Link></li>
           <li className="mb-2"><Link href="/copies">Copies</Link></li>
