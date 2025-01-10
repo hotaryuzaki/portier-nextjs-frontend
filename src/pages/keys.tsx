@@ -53,6 +53,7 @@ const KeysPage = () => {
         ]}
         data={keys}
         offset={(currentPage - 1) * itemsPerPage}
+        onDelete={handleDeleteKey}
       />
       <Pagination
         currentPage={currentPage}

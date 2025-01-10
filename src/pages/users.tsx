@@ -51,10 +51,10 @@ const UsersPage = () => {
           { Header: 'Username', accessor: 'username' },
           { Header: 'Email', accessor: 'email' },
           { Header: 'Name', accessor: 'name' },
-          { Header: 'Actions', accessor: 'actions' },
         ]}
         data={users}
         offset={(currentPage - 1) * itemsPerPage}
+        onDelete={handleDeleteUser}
       />
       <Pagination
         currentPage={currentPage}

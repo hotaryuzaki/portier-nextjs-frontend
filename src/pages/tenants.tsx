@@ -56,6 +56,7 @@ const TenantsPage = () => {
         ]}
         data={tenants}
         offset={(currentPage - 1) * itemsPerPage}
+        onDelete={handleDeleteTenant}
       />
       <Pagination
         currentPage={currentPage}

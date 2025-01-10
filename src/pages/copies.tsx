@@ -53,6 +53,7 @@ const CopiesPage = () => {
         ]}
         data={copies}
         offset={(currentPage - 1) * itemsPerPage}
+        onDelete={handleDeleteCopy}
       />
       <Pagination
         currentPage={currentPage}

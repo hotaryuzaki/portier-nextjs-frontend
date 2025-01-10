@@ -1,13 +1,24 @@
 import React, { useMemo } from 'react';
 import { useTable } from 'react-table';
 
-const TenantTable = ({ columns = [], data = [], offset = 0 }: any) => {
+const TenantTable = ({ columns = [], data = [], offset = 0, onDelete }: any) => {
   const memoizedColumns = useMemo(() => [
     {
       Header: 'No',
       Cell: ({ row }: any) => row.index + offset + 1,
     },
     ...columns,
+    {
+      Header: 'Actions',
+      Cell: ({ row }: any) => (
+        <button
+          onClick={() => onDelete(row.original.id)}
+          className="text-red-600 hover:text-red-900"
+        >
+          Delete
+        </button>
+      ),
+    },
   ], [columns, offset]);
 
   const {
