@@ -20,3 +20,9 @@ export const updateUser = async (id: number, user: User): Promise<User> => {
 export const deleteUser = async (id: number): Promise<void> => {
   await axiosInstance.delete(`/users/${id}`);
 };
+
+export const searchUsers = async (name: string, idNumber: string, page: number, itemsPerPage: number): Promise<{ users: User[], totalPages: number }> => {
+  const offset = (page - 1) * itemsPerPage;
+  const response = await axiosInstance.get(`/users?limit=${itemsPerPage}&offset=${offset}&name=${name}&idnumber=${idNumber}`);
+  return response.data;
+};

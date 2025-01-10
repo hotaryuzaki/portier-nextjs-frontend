@@ -8,9 +8,8 @@ const UserForm = ({ initialValues, onSubmit }: any) => {
         ...initialValues,
         gender: initialValues.gender ?? "1"
       }} // Set default value
-      onSubmit={(values, { resetForm }) => {
-        onSubmit(values);
-        resetForm();
+      onSubmit={(values, actions) => {
+        onSubmit(values, actions);
       }}
       enableReinitialize
     >

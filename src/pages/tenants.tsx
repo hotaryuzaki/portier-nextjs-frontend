@@ -68,7 +68,7 @@ const TenantsPage = () => {
           { Header: 'Name', accessor: 'name' },
           { Header: 'Address', accessor: 'address' },
           { Header: 'Status', accessor: 'status' },
-          { Header: 'Active', accessor: 'isActive' },
+          { Header: 'Active', accessor: 'is_active' },
         ]}
         data={tenants}
         offset={(currentPage - 1) * itemsPerPage}
