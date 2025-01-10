@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { useTable } from 'react-table';
 
-const CopyTable = ({ columns = [], data = [], offset = 0, onDelete }: any) => {
+const CopyTable = ({ columns = [], data = [], offset = 0, onDelete, onEdit }: any) => {
   const memoizedColumns = useMemo(() => [
     {
       Header: 'No',
@@ -11,12 +11,21 @@ const CopyTable = ({ columns = [], data = [], offset = 0, onDelete }: any) => {
     {
       Header: 'Actions',
       Cell: ({ row }: any) => (
-        <button
-          onClick={() => onDelete(row.original.id)}
-          className="text-red-600 hover:text-red-900"
-        >
-          Delete
-        </button>
+        <span className="flex items-center space-x-2">
+          <button
+            onClick={() => onDelete(row.original.id)}
+            className="text-red-600 hover:text-red-900"
+          >
+            Delete
+          </button>
+          <span className="text-gray-400">|</span>
+          <button
+            onClick={() => onEdit(row.original)}
+            className="text-red-600 hover:text-red-900"
+          >
+            Edit
+          </button>
+        </span>
       ),
     },
   ], [columns, offset]);

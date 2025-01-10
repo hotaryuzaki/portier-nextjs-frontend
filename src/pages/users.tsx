@@ -6,6 +6,7 @@ import { getUsers, createUser, updateUser, deleteUser } from '../services/userSe
 import { User } from '../types/models';
 
 const UsersPage = () => {
+  const [title, setTitle] = useState('List');
   const [users, setUsers] = useState<User[]>([]);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -20,7 +21,7 @@ const UsersPage = () => {
     try {
       const data = await getUsers(page, itemsPerPage);
       setUsers(data.users);
-      setTotalPages(data.totalPages);      
+      setTotalPages(data.totalPages);
     } catch (error) {
       console.error('Failed to fetch users:', error);
     }
@@ -36,6 +37,22 @@ const UsersPage = () => {
     fetchUsers(currentPage);
   };
 
+  const handleEditUser = async (user: User) => {
+    console.log('Editing user:', user);
+    setTitle('Edit');
+    setEditingUser(user);
+  };
+
+  const handleSubmit = async (user: User) => {
+    if (editingUser && editingUser.id) {
+      await handleUpdateUser(user);
+    } else {
+      await handleCreateUser(user);
+    }
+    setEditingUser(null);
+    setTitle('List');
+  };
+
   const handleDeleteUser = async (id: number) => {
     await deleteUser(id);
     fetchUsers(currentPage);
@@ -43,8 +60,8 @@ const UsersPage = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Users</h1>
-      <UserForm initialValues={{}} onSubmit={handleCreateUser} />
+      <h1 className="text-2xl font-bold mb-4">Users: {title}</h1>
+      <UserForm initialValues={editingUser || {}} onSubmit={handleSubmit} />
       <UserTable
         columns={[
           { Header: 'ID', accessor: 'id' },
@@ -55,6 +72,7 @@ const UsersPage = () => {
         data={users}
         offset={(currentPage - 1) * itemsPerPage}
         onDelete={handleDeleteUser}
+        onEdit={handleEditUser}
       />
       <Pagination
         currentPage={currentPage}

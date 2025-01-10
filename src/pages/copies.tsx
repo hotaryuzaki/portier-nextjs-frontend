@@ -6,6 +6,7 @@ import { getCopies, createCopy, updateCopy, deleteCopy } from '../services/copyS
 import { Copy } from '../types/models';
 
 const CopiesPage = () => {
+  const [title, setTitle] = useState('List');
   const [copies, setCopies] = useState<Copy[]>([]);
   const [editingCopy, setEditingCopy] = useState<Copy | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -36,6 +37,22 @@ const CopiesPage = () => {
     fetchCopies(currentPage);
   };
 
+  const handleEditCopy = async (copy: Copy) => {
+    console.log('Editing copy:', copy);
+    setTitle('Edit');
+    setEditingCopy(copy);
+  };
+
+  const handleSubmit = async (copy: Copy) => {
+    if (editingCopy && editingCopy.id) {
+      await handleUpdateCopy(copy);
+    } else {
+      await handleCreateCopy(copy);
+    }
+    setEditingCopy(null);
+    setTitle('List');
+  };
+
   const handleDeleteCopy = async (id: number) => {
     await deleteCopy(id);
     fetchCopies(currentPage);
@@ -43,17 +60,17 @@ const CopiesPage = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Copies</h1>
-      <CopyForm initialValues={{}} onSubmit={handleCreateCopy} />
+      <h1 className="text-2xl font-bold mb-4">Copies: {title}</h1>
+      <CopyForm initialValues={editingCopy || {}} onSubmit={handleSubmit} />
       <CopyTable
         columns={[
           { Header: 'ID', accessor: 'id' },
           { Header: 'Name', accessor: 'name' },
-          { Header: 'Actions', accessor: 'actions' },
         ]}
         data={copies}
         offset={(currentPage - 1) * itemsPerPage}
         onDelete={handleDeleteCopy}
+        onEdit={handleEditCopy}
       />
       <Pagination
         currentPage={currentPage}

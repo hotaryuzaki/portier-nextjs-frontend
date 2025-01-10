@@ -6,6 +6,7 @@ import { getKeys, createKey, updateKey, deleteKey } from '../services/keyService
 import { Key } from '../types/models';
 
 const KeysPage = () => {
+  const [title, setTitle] = useState('List');
   const [keys, setKeys] = useState<Key[]>([]);
   const [editingKey, setEditingKey] = useState<Key | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -36,6 +37,22 @@ const KeysPage = () => {
     fetchKeys(currentPage);
   };
 
+  const handleEditKey = async (key: Key) => {
+    console.log('Editing key:', key);
+    setTitle('Edit');
+    setEditingKey(key);
+  };
+
+  const handleSubmit = async (key: Key) => {
+    if (editingKey && editingKey.id) {
+      await handleUpdateKey(key);
+    } else {
+      await handleCreateKey(key);
+    }
+    setEditingKey(null);
+    setTitle('List');
+  };
+
   const handleDeleteKey = async (id: number) => {
     await deleteKey(id);
     fetchKeys(currentPage);
@@ -43,17 +60,17 @@ const KeysPage = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Keys</h1>
-      <KeyForm initialValues={{}} onSubmit={handleCreateKey} />
+      <h1 className="text-2xl font-bold mb-4">Keys: {title}</h1>
+      <KeyForm initialValues={editingKey || {}} onSubmit={handleSubmit} />
       <KeyTable
         columns={[
           { Header: 'ID', accessor: 'id' },
           { Header: 'Name', accessor: 'name' },
-          { Header: 'Actions', accessor: 'actions' },
         ]}
         data={keys}
         offset={(currentPage - 1) * itemsPerPage}
         onDelete={handleDeleteKey}
+        onEdit={handleEditKey}
       />
       <Pagination
         currentPage={currentPage}

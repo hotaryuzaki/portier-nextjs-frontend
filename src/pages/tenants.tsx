@@ -6,6 +6,7 @@ import { getTenants, createTenant, updateTenant, deleteTenant } from '../service
 import { Tenant } from '../types/models';
 
 const TenantsPage = () => {
+  const [title, setTitle] = useState('List');
   const [tenants, setTenants] = useState<Tenant[]>([]);
   const [editingTenant, setEditingTenant] = useState<Tenant | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -36,6 +37,22 @@ const TenantsPage = () => {
     fetchTenants(currentPage);
   };
 
+  const handleEditTenant = async (tenant: Tenant) => {
+    console.log('Editing tenant:', tenant);
+    setTitle('Edit');
+    setEditingTenant(tenant);
+  };
+
+  const handleSubmit = async (tenant: Tenant) => {
+    if (editingTenant && editingTenant.id) {
+      await handleUpdateTenant(tenant);
+    } else {
+      await handleCreateTenant(tenant);
+    }
+    setEditingTenant(null);
+    setTitle('List');
+  };
+
   const handleDeleteTenant = async (id: number) => {
     await deleteTenant(id);
     fetchTenants(currentPage);
@@ -43,8 +60,8 @@ const TenantsPage = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Tenants</h1>
-      <TenantForm initialValues={{}} onSubmit={handleCreateTenant} />
+      <h1 className="text-2xl font-bold mb-4">Tenants: {title}</h1>
+      <TenantForm initialValues={editingTenant || {}} onSubmit={handleSubmit} />
       <TenantTable
         columns={[
           { Header: 'ID', accessor: 'id' },
@@ -52,11 +69,11 @@ const TenantsPage = () => {
           { Header: 'Address', accessor: 'address' },
           { Header: 'Status', accessor: 'status' },
           { Header: 'Active', accessor: 'isActive' },
-          { Header: 'Actions', accessor: 'actions' },
         ]}
         data={tenants}
         offset={(currentPage - 1) * itemsPerPage}
         onDelete={handleDeleteTenant}
+        onEdit={handleEditTenant}
       />
       <Pagination
         currentPage={currentPage}
